@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PORTFOLIO // EDGERUNNER ACADEMY 2027</title>
+<style>
+  :root {
+    --neon-yellow: #fcee0a;
+    --neon-cyan: #00f0ff;
+    --neon-magenta: #ff2a6d;
+    --bg-dark: #0a0a12;
+    --bg-panel: #12121f;
+    --grid-line: rgba(0, 240, 255, 0.08);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--bg-dark);
+    color: #e0e0e0;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    position: relative;
+  }
+
+  /* Scanlines effect */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.15) 0px,
+      rgba(0,0,0,0.15) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Glitch text animation */
+  @keyframes glitch {
+    0%, 100% { text-shadow: 2px 0 var(--neon-magenta), -2px 0 var(--neon-cyan); }
+    25% { text-shadow: -2px 0 var(--neon-magenta), 2px 0 var(--neon-cyan); }
+    50% { text-shadow: 2px 2px var(--neon-magenta), -2px -2px var(--neon-cyan); }
+    75% { text-shadow: -2px 2px var(--neon-magenta), 2px -2px var(--neon-cyan); }
+  }
+
+  @keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 22%, 24%, 55% { opacity: 0.6; }
+  }
+
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
+  /* HEADER */
+  header {
+    padding: 40px 20px 20px;
+    text-align: center;
+    position: relative;
+    border-bottom: 2px solid var(--neon-yellow);
+    box-shadow: 0 0 20px rgba(252, 238, 10, 0.3);
+  }
+
+  header::before {
+    content: "SYS.BOOT // ACADEMY_2027 // STATUS: ONLINE";
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    font-size: 10px;
+    color: var(--neon-cyan);
+    letter-spacing: 2px;
+    opacity: 0.7;
+  }
+
+  header::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-magenta), transparent);
+    animation: flicker 3s infinite;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    color: var(--neon-yellow);
+    letter-spacing: 4px;
+    animation: glitch 3s infinite;
+    text-transform: uppercase;
+  }
+
+  .subtitle {
+    color: var(--neon-cyan);
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    margin-top: 8px;
+    opacity: 0.8;
+  }
+
+  .student-name {
+    margin-top: 15px;
+    display: inline-block;
+    padding: 6px 20px;
+    border: 1px solid var(--neon-magenta);
+    color: var(--neon-magenta);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(255, 42, 109, 0.4), inset 0 0 10px rgba(255, 42, 109, 0.1);
+  }
+
+  /* NAV / STATS BAR */
+  .stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+  }
+
+  .stat {
+    padding: 8px 16px;
+    background: var(--bg-panel);
+    border-left: 3px solid var(--neon-cyan);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--neon-cyan);
+  }
+
+  .stat span {
+    color: var(--neon-yellow);
+    font-weight: bold;
+  }
+
+  /* MAIN CONTAINER */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px 80px;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    color: var(--neon-magenta);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--neon-magenta);
+    text-transform: uppercase;
+  }
+
+  .section-title::before {
+    content: ">> ";
+    color: var(--neon-yellow);
+  }
+
+  /* EXERCISE CARDS GRID */
+  .exercises-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .exercise-card {
+    background: var(--bg-panel);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-left: 4px solid var(--neon-cyan);
+    padding: 18px;
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .exercise-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(225deg, var(--neon-cyan) 50%, transparent 50%);
+    opacity: 0.3;
+  }
+
+  .exercise-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
+    border-color: var(--neon-yellow);
+  }
+
+  .exercise-card:hover::before {
+    opacity: 1;
+    background: linear-gradient(225deg, var(--neon-yellow) 50%, transparent 50%);
+  }
+
+  .card-id {
+    font-size: 0.7rem;
+    color: var(--neon-magenta);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    color: var(--neon-yellow);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .card-desc {
+    font-size: 0.85rem;
+    color: #a0a0b0;
+    line-height: 1.5;
+    margin-bottom: 15px;
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    letter-spacing: 1px;
+  }
+
+  .tag.status-done {
+    border-color: #39ff14;
+    color: #39ff14;
+    background: rgba(57, 255, 20, 0.1);
+  }
+
+  .tag.status-progress {
+    border-color: var(--neon-yellow);
+    color: var(--neon-yellow);
+    background: rgba(252, 238, 10, 0.1);
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    border: 1px dashed rgba(0, 240, 255, 0.3);
+    color: #666;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+  }
+
+  .empty-state .blink {
+    color: var(--neon-yellow);
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.7rem;
+    color: #555;
+    letter-spacing: 2px;
+    border-top: 1px solid rgba(0, 240, 255, 0.1);
+    position: relative;
+  }
+
+  footer::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, var(--neon-magenta), transparent);
+  }
+
+  /* Modal for exercise details */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  .modal {
+    background: var(--bg-panel);
+    border: 1px solid var(--neon-cyan);
+    max-width: 700px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.3);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--neon-magenta);
+    font-size: 1.5rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .modal h2 {
+    color: var(--neon-yellow);
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+    font-size: 1.3rem;
+  }
+
+  .modal p {
+    color: #b0b0c0;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+  }
+
+  .modal pre {
+    background: #050510;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    padding: 15px;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    color: var(--neon-cyan);
+    margin-top: 15px;
+    line-height: 1.5;
+  }
+
+  .modal .meta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>PORTFOLIO 2027</h1>
+  <div class="subtitle">EDGERUNNER ACADEMY // EXERCISE ARCHIVE</div>
+  <div class="student-name" id="studentName">NETRUNNER: [SEU NOME AQUI]</div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat">TOTAL: <span id="statTotal">0</span></div>
+  <div class="stat">CONCLUÍDOS: <span id="statDone">0</span></div>
+  <div class="stat">EM PROGRESSO: <span id="statProgress">0</span></div>
+  <div class="stat">DISCIPLINA: <span>WEB DEV</span></div>
+</div>
+
+<main>
+  <h2 class="section-title">MISSÕES / EXERCÍCIOS</h2>
+  <div class="exercises-grid" id="exercisesGrid">
+    <!-- Cards injetados via JavaScript -->
+  </div>
+</main>
+
+<footer>
+  // SYS.LOG :: PORTFOLIO_2027 :: ALL RIGHTS RESERVED BY THE STUDENT //
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   PORTFÓLIO CYBERPUNK 2027
+   ------------------------------------------------------------
+   Para adicionar um novo exercício, basta adicionar um objeto
+   no array EXERCISES abaixo. Cada objeto tem:
+   
+   id:        número do exercício (ex: 1)
+   title:     título curto do exercício
+   desc:      descrição breve (aparece no card)
+   detail:    descrição completa (aparece ao clicar no card)
+   tags:      array de tags (ex: ["HTML", "CSS"])
+   status:    "done" | "progress" | "pending"
+   code:      (opcional) trecho de código para exibir no modal
+   ============================================================ */
+
+const EXERCISES = [
+  // Exemplo de exercício já incluso (você pode remover ou manter)
+  {
+    id: 1,
+    title: "Hello, Night City",
+    desc: "Primeiro exercício: estrutura básica de uma página HTML com título e parágrafo.",
+    detail: "Criar uma página HTML simples com estrutura básica (DOCTYPE, html, head, body), um título principal e um parágrafo de boas-vindas. Este é o primeiro passo do portfólio.",
+    tags: ["HTML"],
+    status: "done",
+    code: `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello, Night City</title>
+</head>
+<body>
+  <h1>Bem-vindo ao meu portfólio!</h1>
+  <p>Estou começando hoje meu projeto de 2027.</p>
+</body>
+</html>`
+  }
+];
+
+/* ============================================================
+   RENDERIZAÇÃO (não precisa mexer aqui normalmente)
+   ============================================================ */
+
+const grid = document.getElementById("exercisesGrid");
+
+function statusLabel(status) {
+  if (status === "done") return { text: "CONCLUÍDO", cls: "status-done" };
+  if (status === "progress") return { text: "EM PROGRESSO", cls: "status-progress" };
+  return { text: "PENDENTE", cls: "" };
+}
+
+function renderExercises() {
+  grid.innerHTML = "";
+
+  if (EXERCISES.length === 0) {
+    grid.innerHTML = '<div class="empty-state">[ SEM MISSÕES REGISTRADAS ]<br><br><span class="blink">AGUARDANDO DADOS...</span></div>';
+    updateStats();
+    return;
+  }
+
+  EXERCISES.forEach(ex => {
+    const st = statusLabel(ex.status);
+
+    const card = document.createElement("div");
+    card.className = "exercise-card";
+    card.innerHTML = `
+      <div class="card-id">MISSION_${String(ex.id).padStart(3, "0")}</div>
+      <div class="card-title">${ex.title}</div>
+      <div class="card-desc">${ex.desc}</div>
+      <div class="card-tags">
+        ${ex.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+        <span class="tag ${st.cls}">${st.text}</span>
+      </div>
+    `;
+    card.addEventListener("click", () => openModal(ex));
+    grid.appendChild(card);
+  });
+
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById("statTotal").textContent = EXERCISES.length;
+  document.getElementById("statDone").textContent = EXERCISES.filter(e => e.status === "done").length;
+  document.getElementById("statProgress").textContent = EXERCISES.filter(e => e.status === "progress").length;
+}
+
+/* ---------- MODAL ---------- */
+const modalOverlay = document.getElementById("modalOverlay");
+const modalContent = document.getElementById("modalContent");
+const modalClose = document.getElementById("modalClose");
+
+function openModal(ex) {
+  const st = statusLabel(ex.status);
+  modalContent.innerHTML = `
+    <h2>MISSION_${String(ex.id).padStart(3, "0")} // ${ex.title}</h2>
+    <div class="meta-row">
+      ${ex.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+      <span class="tag ${st.cls}">${st.text}</span>
+    </div>
+    <p>${ex.detail || ex.desc}</p>
+    ${ex.code ? `<pre>${escapeHtml(ex.code)}</pre>` : ""}
+  `;
+  modalOverlay.classList.add("active");
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function closeModal() {
+  modalOverlay.classList.remove("active");
+}
+
+modalClose.addEventListener("click", closeModal);
+modalOverlay.addEventListener("click", (e) => {
+  if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+});
+
+/* ---------- INIT ---------- */
+renderExercises();
+
+// Para personalizar seu nome, altere a linha abaixo:
+// document.getElementById("studentName").textContent = "NETRUNNER: SEU NOME";
+</script>
+</body>
+</html>
